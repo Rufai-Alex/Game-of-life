@@ -18,6 +18,19 @@ class Box extends React.Component {
     );
   }
 }
+seed = () => {
+  let gridCopy = arrayClone(this.state.gridFull);
+  for (let i = 0; i < this.rows; i++) {
+    for (let j = 0; j < this.cols; j++) {
+      if (Math.floor(Math.random() * 4) === 1) {
+        gridCopy[i][j] = true;
+      }
+    }
+  }
+  this.setState({
+    gridFull: gridCopy
+  });
+}
 
 
 class App extends React.Component {
