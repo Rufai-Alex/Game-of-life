@@ -1,53 +1,9 @@
 import React, { useState } from "react";
 import { Button } from '@material-ui/core';
 import "./App.css";
+import { Buttons } from "./Buttons";
+import { Grid } from "./Grid";
 
-
-
-
-class Box extends React.Component {
-  selectBox = () => {
-    this.props.selectBox(this.props.row, this.props.col);
-  }
-
-  render() {
-    return (
-      <div
-        className={this.props.boxClass}
-        id={this.props.id}
-        onClick={this.selectBox}
-      />
-    );
-  }
-}
-class Grid extends React.Component {
-  render() {
-    const width = this.props.cols * 16;
-    var rowsArr = [];
-    var boxClass = "";
-    for (var i = 0; i < this.props.rows; i++) {
-      for (var j = 0; j < this.props.rows; j++) {
-        let boxid = i + "_" + j;
-        boxClass = this.props.gridFull[i][j] ? "box on" : "box off";
-        rowsArr.push(
-          <Box
-            boxClass={boxClass}
-            key={boxid}
-            boxid={boxid}
-            row={i}
-            col={j}
-            selectBox={this.props.selectBox}
-          />
-        );
-      }
-    }
-    return (
-      <div className='grid' style={{ width: width }}>
-        {rowsArr}{" "}
-      </div>
-    );
-  }
-}
 
 
 
@@ -56,7 +12,7 @@ class App extends React.Component {
     super();
     this.speed = 100;
     this.cols = 50;
-    this.rows = 50;
+    this.rows = 40;
     this.state = {
       generation: 0,
       gridFull: Array(this.rows).fill().map(() => Array(this.cols).fill(false))
@@ -89,6 +45,24 @@ class App extends React.Component {
   pauseButton = () => {
     clearInterval(this.intervalId);
   }
+  slow = () => {
+    this.speed = 1000;
+    this.playButton();
+  }
+
+  fast = () => {
+    this.speed = 100;
+    this.playButton();
+  }
+
+  clear = () => {
+    var grid = Array(this.rows).fill().map(() => Array(this.cols).fill(false));
+    this.setState({
+      gridFull: grid,
+      generation: 0
+    });
+  }
+
   play = () => {
     let g = this.state.gridFull;
     let g2 = arrayClone(this.state.gridFull);
@@ -124,14 +98,14 @@ class App extends React.Component {
     return (
       <div className='App' >
         <h1>Game Of Life</h1>
-        <Button
+        <Buttons
           playButton={this.playButton}
           pauseButton={this.pauseButton}
           slow={this.slow}
           fast={this.fast}
           clear={this.clear}
           seed={this.seed}
-          gridSize={this.gridSize}
+
         />
         <Grid gridFull={this.state.gridFull} rows={this.rows} cols={this.cols} selectBox={this.selectBox} />
         <h2>generation: {this.state.generation} </h2>

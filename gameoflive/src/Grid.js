@@ -1,7 +1,6 @@
 import React from "react";
-import Box from "./Box";
-
-class Grid extends React.Component {
+import { Box } from "./Box";
+export class Grid extends React.Component {
   render() {
     const width = this.props.cols * 16;
     var rowsArr = [];
@@ -29,4 +28,3 @@ class Grid extends React.Component {
     );
   }
 }
-export default Grid;
